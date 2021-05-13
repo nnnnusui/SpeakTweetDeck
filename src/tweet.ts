@@ -12,9 +12,17 @@ const fromElement = (source: Element) => {
   const mediaElement = source.getElementsByClassName("media-preview")[0];
   const media = mediaElement ? Media.fromElement(mediaElement) : null;
 
+  // const activityElement =
+  //   source.getElementsByClassName("activity-header")[0]?.textContent;
+  // const isLiked = activityElement?.includes("liked");
+  // const isFollowed = activityElement?.includes("followed");
+
   const isRetweet = !!source
     .getElementsByClassName("tweet-context")[0]
     ?.textContent?.includes("Retweeted");
+
+  const isReply = !!source.getElementsByClassName("other-replies")[0];
+
   const userName = source.getElementsByClassName("fullname")[0].textContent;
   const userId = source
     .getElementsByClassName("username")[0]
@@ -24,8 +32,9 @@ const fromElement = (source: Element) => {
   ).map(Text.fromNode);
   return {
     timeline,
-    media,
     isRetweet,
+    isReply,
+    media,
     userName: userName ? userName : "",
     userId: userId ? userId : "",
     text: text ? text : ([] as typeof text),

@@ -3,20 +3,20 @@ import { addSuppressButton } from "./addSuppressButton";
 import { Text } from "./Text";
 import { Tweet } from "./Tweet";
 
-const run = () => {
+const secondsToWaitForLoad = 8;
+setTimeout(() => {
   addSuppressButton();
-  initAddSpeakButton();
-  registerObserver();
+  addSpeakButtonToExistingTweets();
+  registerTweetObserver();
   console.log("SpeakTweetDeck: loaded.");
-};
-setTimeout(run, 8000);
+}, secondsToWaitForLoad * 1000);
 
-const initAddSpeakButton = () =>
+const addSpeakButtonToExistingTweets = () =>
   Array.from(document.getElementsByClassName("tweet")).forEach((it) =>
     addSpeakButton(it, () => speak(Tweet.fromElement(it)))
   );
 
-const registerObserver = () => {
+const registerTweetObserver = () => {
   const observer = new MutationObserver((mutations) =>
     mutations.forEach((mutation) =>
       Array.from(mutation.addedNodes)
@@ -38,7 +38,6 @@ const onDetectTweet = (tweetNode: Node) => {
 
 const isSpeakTarget = (tweet: Tweet) => true;
 const speak = (tweet: Tweet) => {
-  console.log(tweet);
   const utterance = utteranceFromTweet(tweet);
   window.speechSynthesis.speak(utterance);
 };
@@ -49,20 +48,22 @@ const utteranceFromTweet = (tweet: Tweet) => {
       case "plain":
         return text.value;
       case "url":
-        return `url `;
+        return `url`;
       default:
-        return `${text.kind} ${text.value} `;
+        return `${text.kind} ${text.value}`;
     }
   };
-  const textContent = Array.from(tweet.text).map(convertText).join("");
-  const context = tweet.isRetweet ? "Retweet" : "";
+  const textContent = Array.from(tweet.text).map(convertText).join("\n");
+  const isRetweet = tweet.isRetweet ? "Retweet" : "";
+  const isReply = tweet.isReply ? "Reply" : "";
   const mediaInfo = tweet.media
     ? `${tweet.media.type}${tweet.media.amount}`
     : "";
   const utterance = new SpeechSynthesisUtterance(
     [
       tweet.timeline.title,
-      context,
+      isRetweet,
+      isReply,
       tweet.userName,
       textContent,
       mediaInfo,
