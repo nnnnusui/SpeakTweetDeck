@@ -1,3 +1,4 @@
+import { addSpeakButton } from "./addSpeakButton";
 import { Tweet } from "./Tweet";
 
 const run = () => {
@@ -49,26 +50,19 @@ const utteranceFromTweet = (tweet: Tweet) => {
     }
   };
   const textContent = Array.from(tweet.text).map(convertNode).join("");
+  const context = tweet.isRetweet ? "Retweet" : "";
   const mediaInfo = tweet.media
     ? `${tweet.media.type}${tweet.media.amount}`
     : "";
   const utterance = new SpeechSynthesisUtterance(
-    `${tweet.timeline.title}\n ${tweet.username}\n ${textContent}\n ${mediaInfo}`
+    [
+      tweet.timeline.title,
+      context,
+      tweet.userName,
+      textContent,
+      mediaInfo,
+    ].join("\n")
   );
   utterance.rate = 1.6;
   return utterance;
-};
-
-const addSpeakButton = (tweetElement: Element, onClick: () => void) => {
-  const actionList = tweetElement.getElementsByClassName("tweet-actions")[0];
-  if (!actionList) return;
-  const button = document.createElement("a");
-  button.href = "#";
-  button.rel = "speak";
-  button.classList.add("tweet-action");
-  button.textContent = "🔈";
-  button.onclick = onClick;
-  const container = document.createElement("li");
-  container.appendChild(button);
-  actionList.appendChild(container);
 };
