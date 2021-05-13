@@ -9,7 +9,7 @@ setTimeout(run, 8000);
 
 const initAddSpeakButton = () =>
   Array.from(document.getElementsByClassName("tweet")).forEach((it) =>
-    addSpeakButton(it)
+    addSpeakButton(it, () => speak(Tweet.fromElement(it)))
   );
 
 const registerObserver = () => {
@@ -27,13 +27,13 @@ const registerObserver = () => {
 
 const onDetectTweet = (tweetNode: Node) => {
   const tweetElement = tweetNode as Element;
-  if (isSpeakTarget(tweetElement)) speak(tweetElement);
-  addSpeakButton(tweetElement);
+  const tweet = Tweet.fromElement(tweetElement);
+  if (isSpeakTarget(tweet)) speak(tweet);
+  addSpeakButton(tweetElement, () => speak(tweet));
 };
 
-const isSpeakTarget = (tweetElement: Element) => true;
-const speak = (tweetElement: Element) => {
-  const tweet = Tweet.fromElement(tweetElement);
+const isSpeakTarget = (tweet: Tweet) => true;
+const speak = (tweet: Tweet) => {
   console.log(tweet);
   const utterance = utteranceFromTweet(tweet);
   window.speechSynthesis.speak(utterance);
@@ -56,7 +56,7 @@ const utteranceFromTweet = (tweet: Tweet) => {
   return utterance;
 };
 
-const addSpeakButton = (tweetElement: Element) => {
+const addSpeakButton = (tweetElement: Element, onClick: () => void) => {
   const actionList = tweetElement.getElementsByClassName("tweet-actions")[0];
   if (!actionList) return;
   const button = document.createElement("a");
@@ -64,7 +64,7 @@ const addSpeakButton = (tweetElement: Element) => {
   button.rel = "speak";
   button.classList.add("tweet-action");
   button.textContent = "🔈";
-  button.onclick = () => speak(tweetElement);
+  button.onclick = onClick;
   const container = document.createElement("li");
   container.appendChild(button);
   actionList.appendChild(container);
