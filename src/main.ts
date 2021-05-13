@@ -1,4 +1,4 @@
-import { Tweet } from "./tweet";
+import { Tweet } from "./Tweet";
 
 const run = () => {
   initAddSpeakButton();
@@ -34,13 +34,23 @@ const onDetectTweet = (tweetNode: Node) => {
 const isSpeakTarget = (tweetElement: Element) => true;
 const speak = (tweetElement: Element) => {
   const tweet = Tweet.fromElement(tweetElement);
+  console.log(tweet);
   const utterance = utteranceFromTweet(tweet);
   window.speechSynthesis.speak(utterance);
 };
 
 const utteranceFromTweet = (tweet: Tweet) => {
+  const convertNode = (node: Node) => {
+    switch (node.nodeName) {
+      case "A":
+        return "URL";
+      default:
+        return node.textContent;
+    }
+  };
+  const textContent = Array.from(tweet.text).map(convertNode).join("");
   const utterance = new SpeechSynthesisUtterance(
-    `${tweet.timeline}\n ${tweet.username}\n ${tweet.text}`
+    `${tweet.timeline}\n ${tweet.username}\n ${textContent}`
   );
   utterance.rate = 1.6;
   return utterance;
