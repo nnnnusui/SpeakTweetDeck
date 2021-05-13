@@ -1,4 +1,5 @@
 import { addSpeakButton } from "./addSpeakButton";
+import { Text } from "./Text";
 import { Tweet } from "./Tweet";
 
 const run = () => {
@@ -41,15 +42,17 @@ const speak = (tweet: Tweet) => {
 };
 
 const utteranceFromTweet = (tweet: Tweet) => {
-  const convertNode = (node: Node) => {
-    switch (node.nodeName) {
-      case "A":
-        return "URL";
+  const convertText = (text: Text) => {
+    switch (text.kind) {
+      case "plain":
+        return text.value;
+      case "url":
+        return `url `;
       default:
-        return node.textContent;
+        return `${text.kind} ${text.value} `;
     }
   };
-  const textContent = Array.from(tweet.text).map(convertNode).join("");
+  const textContent = Array.from(tweet.text).map(convertText).join("");
   const context = tweet.isRetweet ? "Retweet" : "";
   const mediaInfo = tweet.media
     ? `${tweet.media.type}${tweet.media.amount}`
