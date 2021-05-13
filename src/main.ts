@@ -49,8 +49,11 @@ const utteranceFromTweet = (tweet: Tweet) => {
     }
   };
   const textContent = Array.from(tweet.text).map(convertNode).join("");
+  const mediaInfo = tweet.media
+    ? `${tweet.media.type}${tweet.media.amount}`
+    : "";
   const utterance = new SpeechSynthesisUtterance(
-    `${tweet.timeline}\n ${tweet.username}\n ${textContent}`
+    `${tweet.timeline.title}\n ${tweet.username}\n ${textContent}\n ${mediaInfo}`
   );
   utterance.rate = 1.6;
   return utterance;
