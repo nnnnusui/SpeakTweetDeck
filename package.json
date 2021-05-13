@@ -1,0 +1,28 @@
+{
+  "private": true,
+  "scripts": {
+    "lint:prettier": "prettier src --check",
+    "lint:eslint": "eslint src",
+    "lint": "run-p lint:*",
+    "fix:prettier": "npm run lint:prettier -- --write",
+    "fix:eslint": "npm run lint:eslint -- --fix",
+    "fix": "run-s fix:*",
+    "build:tsc": "tsc",
+    "build:copy": "node -e \"require('fs-extra').copySync('public', 'out')\"",
+    "build": "run-p build:*",
+    "routine": "run-s fix build",
+    "monitor": "nodemon --ignore out --exec \"npm run routine\""
+  },
+  "devDependencies": {
+    "@types/chrome": "0.0.139",
+    "@typescript-eslint/eslint-plugin": "^4.23.0",
+    "@typescript-eslint/parser": "^4.23.0",
+    "eslint": "^7.26.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "fs-extra": "^10.0.0",
+    "nodemon": "^2.0.7",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.3.0",
+    "typescript": "^4.2.4"
+  }
+}
