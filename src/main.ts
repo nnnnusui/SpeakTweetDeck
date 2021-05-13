@@ -1,8 +1,10 @@
 import { addSpeakButton } from "./addSpeakButton";
+import { addSuppressButton } from "./addSuppressButton";
 import { Text } from "./Text";
 import { Tweet } from "./Tweet";
 
 const run = () => {
+  addSuppressButton();
   initAddSpeakButton();
   registerObserver();
   console.log("SpeakTweetDeck: loaded.");
