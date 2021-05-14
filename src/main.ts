@@ -1,13 +1,17 @@
+/* eslint-disable no-extra-boolean-cast */
 import { addSpeakButton } from "./addSpeakButton";
 import { addSuppressButton } from "./addSuppressButton";
 import { addToggleSpeakButtonToTimelines } from "./addToggleSpeakButtonToTimelines";
 import { Text } from "./tweet/Text";
 import { Tweet } from "./Tweet";
 import { WhiteList } from "./WhiteList";
+import { addGlobalMuteButton } from "./addGlobalMuteButton";
 
 const secondsToWaitForLoad = 5;
 setTimeout(() => {
+  localStorage.setItem("mute", false.toString());
   addSuppressButton();
+  addGlobalMuteButton();
   addToggleSpeakButtonToTimelines();
   addSpeakButtonToExistingTweets();
   registerTweetObserver();
@@ -35,8 +39,11 @@ const registerTweetObserver = () => {
 const onDetectTweet = (tweetNode: Node) => {
   const tweetElement = tweetNode as Element;
   const tweet = Tweet.fromElement(tweetElement);
-  if (isSpeakTarget(tweet)) speak(tweet);
   addSpeakButton(tweetElement, () => speak(tweet));
+  if (!isSpeakTarget(tweet)) return;
+  const mute = localStorage.getItem("mute") === true.toString();
+  if (mute) return;
+  speak(tweet);
 };
 
 const isSpeakTarget = (tweet: Tweet) => WhiteList.check(tweet);
