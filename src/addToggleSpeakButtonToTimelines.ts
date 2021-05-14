@@ -22,7 +22,7 @@ const addToTimelineHeader = (timelineHeader: Element) => {
   timelineHeader.firstChild?.after(container);
 };
 
-export const addToggleSpeakButtonToTimelines = () => {
+export const addToggleSpeakButtonToTimelines = (): void => {
   const timelineHeaders = Array.from(
     document.getElementsByClassName("column-title")
   );

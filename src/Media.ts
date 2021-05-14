@@ -3,7 +3,7 @@ const getMediaType = (source: Element) => {
   if (isVideo) return "video";
   return "image";
 };
-const fromElement = (source: Element) => {
+const fromElement = (source: Element): Media => {
   const mediaType = getMediaType(source);
   const imageContainers = source.getElementsByClassName(
     "media-image-container"
@@ -11,8 +11,13 @@ const fromElement = (source: Element) => {
   const amount = imageContainers.length == 0 ? 1 : imageContainers.length;
   return { type: mediaType, amount };
 };
-type Media = ReturnType<typeof fromElement>;
+const none = { type: "none", amount: 0 };
+type Media = {
+  type: string;
+  amount: number;
+};
 const Media = {
   fromElement,
+  none,
 };
 export { Media };

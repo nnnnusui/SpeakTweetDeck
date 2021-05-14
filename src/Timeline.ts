@@ -1,4 +1,4 @@
-const fromElement = (source: Element) => {
+const fromElement = (source: Element): Timeline => {
   const account = source
     ?.getElementsByClassName("column-header-title")[0]
     ?.getElementsByClassName("attribution")[0]?.textContent;
@@ -6,7 +6,10 @@ const fromElement = (source: Element) => {
     source?.getElementsByClassName("column-heading")[0]?.textContent;
   return { title: title ? title : "", account: account ? account : "" };
 };
-type Timeline = ReturnType<typeof fromElement>;
+type Timeline = {
+  title: string;
+  account: string;
+};
 const Timeline = {
   fromElement,
 };

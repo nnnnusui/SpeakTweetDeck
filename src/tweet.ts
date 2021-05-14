@@ -2,7 +2,7 @@ import { Media } from "./Media";
 import { Text } from "./Text";
 import { Timeline } from "./Timeline";
 
-const fromElement = (source: Element) => {
+const fromElement = (source: Element): Tweet => {
   const timelineElement =
     source.parentElement?.parentElement?.parentElement?.parentElement
       ?.parentElement?.parentElement;
@@ -10,7 +10,7 @@ const fromElement = (source: Element) => {
   const timeline = Timeline.fromElement(timelineElement);
 
   const mediaElement = source.getElementsByClassName("media-preview")[0];
-  const media = mediaElement ? Media.fromElement(mediaElement) : null;
+  const media = mediaElement ? Media.fromElement(mediaElement) : Media.none;
 
   // const activityElement =
   //   source.getElementsByClassName("activity-header")[0]?.textContent;
@@ -40,7 +40,15 @@ const fromElement = (source: Element) => {
     text: text ? text : ([] as typeof text),
   };
 };
-type Tweet = ReturnType<typeof fromElement>;
+type Tweet = {
+  timeline: Timeline;
+  isRetweet: boolean;
+  isReply: boolean;
+  media: Media;
+  userName: string;
+  userId: string;
+  text: Text[];
+};
 const Tweet = {
   fromElement,
 };

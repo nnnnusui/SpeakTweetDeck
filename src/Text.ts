@@ -15,9 +15,7 @@ type Hashtag = {
   value: string;
 };
 
-type TextContent = Plain | Url | User | Hashtag;
-
-const fromNode = (source: Node): TextContent => {
+const fromNode = (source: Node): Text => {
   const text = source.textContent ? source.textContent : "";
   switch (source.nodeName) {
     case "A": {
@@ -34,7 +32,7 @@ const fromNode = (source: Node): TextContent => {
       return { kind: "plain", value: text };
   }
 };
-type Text = ReturnType<typeof fromNode>;
+type Text = Plain | Url | User | Hashtag;
 const Text = {
   fromNode,
 };

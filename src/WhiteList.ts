@@ -20,12 +20,8 @@ const check = (it: Condition, tweet: Tweet) =>
   (!it.isReply || it.isReply === tweet.isReply) &&
   (!it.userId || it.userId === tweet.userId) &&
   (!it.userName || it.userName === tweet.userName) &&
-  (!it.media?.type ||
-    tweet.media?.type ||
-    it.media.type === tweet.media?.type) &&
-  (!it.media?.amount ||
-    tweet.media?.amount ||
-    it.media.amount === tweet.media?.amount);
+  (!it.media?.type || it.media.type === tweet.media.type) &&
+  (!it.media?.amount || it.media.amount === tweet.media.amount);
 
 const key = "whitelist";
 const get = (): WhiteList => {

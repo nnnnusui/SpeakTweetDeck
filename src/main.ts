@@ -59,9 +59,10 @@ const utteranceFromTweet = (tweet: Tweet) => {
   const textContent = Array.from(tweet.text).map(convertText).join("\n");
   const isRetweet = tweet.isRetweet ? "Retweet" : "";
   const isReply = tweet.isReply ? "Reply" : "";
-  const mediaInfo = tweet.media
-    ? `${tweet.media.type}${tweet.media.amount}`
-    : "";
+  const mediaInfo =
+    tweet.media.type === "none"
+      ? ""
+      : `${tweet.media.type}${tweet.media.amount}`;
   const utterance = new SpeechSynthesisUtterance(
     [
       tweet.timeline.title,
