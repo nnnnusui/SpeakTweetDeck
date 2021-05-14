@@ -5,7 +5,7 @@ import { Text } from "./tweet/Text";
 import { Tweet } from "./Tweet";
 import { WhiteList } from "./WhiteList";
 
-const secondsToWaitForLoad = 8;
+const secondsToWaitForLoad = 5;
 setTimeout(() => {
   addSuppressButton();
   addToggleSpeakButtonToTimelines();
