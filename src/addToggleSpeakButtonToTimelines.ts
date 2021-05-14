@@ -1,4 +1,4 @@
-import { Timeline } from "./Timeline";
+import { Timeline } from "./tweet/Timeline";
 import { WhiteList } from "./WhiteList";
 
 const addToTimelineHeader = (timelineHeader: Element) => {
