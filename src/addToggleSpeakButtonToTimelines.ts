@@ -44,10 +44,19 @@ const setOnViewDetail = (target: Node) => {
   });
 };
 
+const onAddTimeline = new MutationObserver((mutations) =>
+  mutations.forEach((mutation) => mutation.addedNodes.forEach(setOnViewDetail))
+);
+const setOnAddTimeline = (target: Node) => {
+  onAddTimeline.observe(target, { childList: true });
+};
+
 export const addToggleSpeakButtonToTimelines = (): void => {
   const timelinesContainer = document.getElementsByClassName("app-columns")[0];
   if (!timelinesContainer)
     throw Error("timelinesContainer: 'app-columns' not found.");
+
+  setOnAddTimeline(timelinesContainer);
 
   const timelines = Array.from(timelinesContainer.children);
   timelines.forEach((it) => {
