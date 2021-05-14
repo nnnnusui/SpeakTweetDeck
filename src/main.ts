@@ -1,11 +1,14 @@
 import { addSpeakButton } from "./addSpeakButton";
 import { addSuppressButton } from "./addSuppressButton";
+import { addToggleSpeakButtonToTimelines } from "./addToggleSpeakButtonToTimelines";
 import { Text } from "./Text";
 import { Tweet } from "./Tweet";
+import { WhiteList } from "./WhiteList";
 
 const secondsToWaitForLoad = 8;
 setTimeout(() => {
   addSuppressButton();
+  addToggleSpeakButtonToTimelines();
   addSpeakButtonToExistingTweets();
   registerTweetObserver();
   console.log("SpeakTweetDeck: loaded.");
@@ -36,7 +39,22 @@ const onDetectTweet = (tweetNode: Node) => {
   addSpeakButton(tweetElement, () => speak(tweet));
 };
 
-const isSpeakTarget = (tweet: Tweet) => true;
+const isSpeakTarget = (tweet: Tweet) =>
+  WhiteList.filter(
+    (it) => !it.timeline || it.timeline.title === tweet.timeline.title
+  )
+    .filter(
+      (it) => !it.timeline || it.timeline.account === tweet.timeline.account
+    )
+    .filter((it) => !it.isReply || it.isReply === tweet.isReply)
+    .filter((it) => !it.isRetweet || it.isRetweet === tweet.isRetweet)
+    .filter(
+      (it) => !it.media || !tweet.media || it.media.type === tweet.media.type
+    )
+    // .filter((it) => !it.media || !tweet.media || it.media.amount === tweet.media.amount)
+    .filter((it) => !it.userId || it.userId === tweet.userId)
+    .filter((it) => !it.userName || it.userName === tweet.userName).length !==
+  0;
 const speak = (tweet: Tweet) => {
   const utterance = utteranceFromTweet(tweet);
   window.speechSynthesis.speak(utterance);
