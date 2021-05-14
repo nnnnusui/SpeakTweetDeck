@@ -1,7 +1,7 @@
 import { addSpeakButton } from "./addSpeakButton";
 import { addSuppressButton } from "./addSuppressButton";
 import { addToggleSpeakButtonToTimelines } from "./addToggleSpeakButtonToTimelines";
-import { Text } from "./Text";
+import { Text } from "./tweet/Text";
 import { Tweet } from "./Tweet";
 import { WhiteList } from "./WhiteList";
 
