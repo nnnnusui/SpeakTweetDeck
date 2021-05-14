@@ -6,7 +6,7 @@ export const addSpeakButton = (
   if (!actionList) return;
   const button = document.createElement("a");
   button.href = "#";
-  button.rel = "speak";
+  button.title = "play speak";
   button.classList.add("tweet-action");
   button.textContent = "🔊";
   button.onclick = onClick;

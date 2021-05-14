@@ -5,7 +5,7 @@ export const addSuppressButton = (): void => {
 
   const container = document.createElement("a");
   container.href = "#";
-  container.rel = "suppress spreak";
+  container.title = "suppress speak";
   container.classList.add("link-clean");
   container.style.display = "block";
   container.style.textAlign = "center";
