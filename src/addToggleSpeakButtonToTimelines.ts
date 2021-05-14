@@ -30,21 +30,37 @@ const addToTimelineHeader = (source: Element) => {
   title?.firstChild?.after(container);
 };
 
-const observer = new MutationObserver((mutations) =>
+const onViewDetail = new MutationObserver((mutations) =>
   mutations.forEach((mutation) => {
     const timeline = mutation.target as Element;
     if (timeline.classList.contains("js-column-state-detail-view")) return;
     addToTimelineHeader(timeline);
   })
 );
+const setOnViewDetail = (target: Node) => {
+  onViewDetail.observe(target, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+};
+
+const onAddTimeline = new MutationObserver((mutations) =>
+  mutations.forEach((mutation) => mutation.addedNodes.forEach(setOnViewDetail))
+);
+const setOnAddTimeline = (target: Node) => {
+  onAddTimeline.observe(target, { childList: true });
+};
 
 export const addToggleSpeakButtonToTimelines = (): void => {
-  const timelines = Array.from(document.getElementsByClassName("column"));
+  const timelinesContainer = document.getElementsByClassName("app-columns")[0];
+  if (!timelinesContainer)
+    throw Error("timelinesContainer: 'app-columns' not found.");
+
+  setOnAddTimeline(timelinesContainer);
+
+  const timelines = Array.from(timelinesContainer.children);
   timelines.forEach((it) => {
     addToTimelineHeader(it);
-    observer.observe(it, {
-      attributes: true,
-      attributeFilter: ["class"],
-    });
+    setOnViewDetail(it);
   });
 };
