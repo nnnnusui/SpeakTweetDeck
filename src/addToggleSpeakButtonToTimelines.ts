@@ -9,7 +9,6 @@ const addToTimelineHeader = (source: Element) => {
     return;
 
   const timeline = Timeline.fromElement(source);
-  console.log(timeline);
   const button = document.createElement("a");
   button.href = "#";
   button.title = "toggle speak";
