@@ -1,6 +1,6 @@
-import { Media } from "./Media";
-import { Text } from "./Text";
-import { Timeline } from "./Timeline";
+import { Media } from "./tweet/Media";
+import { Text } from "./tweet/Text";
+import { Timeline } from "./tweet/Timeline";
 
 const fromElement = (source: Element): Tweet => {
   const timelineElement =
