@@ -1,3 +1,3 @@
-import { Tweet } from "./type/Tweet";
+import { Tweet } from "./Tweet";
 
 export type FilteringCondition = Partial<Tweet>;

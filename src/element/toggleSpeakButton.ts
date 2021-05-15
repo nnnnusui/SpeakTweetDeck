@@ -1,5 +1,5 @@
-import { FilteringCondition } from "../FilteringCondition";
-import { WhiteList } from "../WhiteList";
+import { FilteringCondition } from "../type/FilteringCondition";
+import { WhiteList } from "../type/WhiteList";
 import { buttonBase } from "./base/buttonBase";
 import { Button } from "./type/Button";
 

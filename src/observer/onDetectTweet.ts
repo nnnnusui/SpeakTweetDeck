@@ -1,7 +1,7 @@
 import { addPlayButtonToTweet } from "../injector/addPlayButtonToTweet";
 import { speak } from "../speak";
 import { Tweet } from "../type/Tweet";
-import { WhiteList } from "../WhiteList";
+import { WhiteList } from "../type/WhiteList";
 
 const isSpeakTarget = (tweet: Tweet) => WhiteList.check(tweet);
 const onDetect = (tweetNode: Node) => {
