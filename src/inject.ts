@@ -1,10 +1,9 @@
 import { globalMuteButton } from "./element/globalMuteButton";
 import { playButton } from "./element/playButton";
 import { suppressButton } from "./element/suppressButton";
-import { toggleSpeakButton } from "./element/toggleSpeakButton";
+import { addToggleSpeakButtonToTimeline } from "./injector/addToggleSpeakButtonToTimeline";
 import { speak } from "./speak";
 import { Tweet } from "./type/Tweet";
-import { Timeline } from "./type/tweet/Timeline";
 import { WhiteList } from "./WhiteList";
 
 export const inject = (): void => {
@@ -23,23 +22,8 @@ export const inject = (): void => {
     document.getElementsByClassName("chirp-container")
   );
   setOnAddTimeline(timelinesContainer);
-  timelines.forEach(setOnViewDetail);
+  timelines.forEach(setOnUpdateTimeline);
   tweetContainers.forEach(setOnDetectTweet);
-};
-
-const addToggleSpeakButtonToTimeline = (element: Element) => {
-  const className = "toggle-speak-button";
-  const title = element.getElementsByClassName("column-title")[0];
-  if (!title) return;
-  if (Array.from(title.children).find((it) => it.classList.contains(className)))
-    return;
-
-  const timeline = Timeline.fromElement(element);
-  const button = toggleSpeakButton({ timeline });
-  title.insertBefore(
-    button,
-    title.getElementsByClassName("column-header-links")[0]
-  );
 };
 
 const addPlayButtonToTweet = (tweet: Element) => {
@@ -52,22 +36,24 @@ const addPlayButtonToTweet = (tweet: Element) => {
 };
 
 // observers
-const onViewDetail = new MutationObserver((mutations) =>
+const onUpdateTimeline = new MutationObserver((mutations) =>
   mutations.forEach((mutation) => {
     const timeline = mutation.target as Element;
     console.log("observe");
     addToggleSpeakButtonToTimeline(timeline);
   })
 );
-const setOnViewDetail = (target: Node) => {
-  onViewDetail.observe(target, {
+const setOnUpdateTimeline = (target: Node) => {
+  onUpdateTimeline.observe(target, {
     attributes: true,
     attributeFilter: ["class"],
   });
 };
 
 const onAddTimeline = new MutationObserver((mutations) =>
-  mutations.forEach((mutation) => mutation.addedNodes.forEach(setOnViewDetail))
+  mutations.forEach((mutation) =>
+    mutation.addedNodes.forEach(setOnUpdateTimeline)
+  )
 );
 const setOnAddTimeline = (target: Node) => {
   onAddTimeline.observe(target, { childList: true });
