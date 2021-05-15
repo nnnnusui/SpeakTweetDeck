@@ -26,7 +26,7 @@ const utteranceFromTweet = (tweet: Tweet) => {
       : `${tweet.media.type}${tweet.media.amount}`;
   const utterance = new SpeechSynthesisUtterance(
     [
-      tweet.timeline.title,
+      tweet.timeline.kind,
       isRetweet,
       isReply,
       tweet.userName,
