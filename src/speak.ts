@@ -1,5 +1,5 @@
-import { Tweet } from "./Tweet";
-import { Text } from "./tweet/Text";
+import { Tweet } from "./type/Tweet";
+import { Text } from "./type/tweet/Text";
 
 export const speak = (tweet: Tweet): void => {
   const utterance = utteranceFromTweet(tweet);

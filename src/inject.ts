@@ -3,8 +3,8 @@ import { playButton } from "./element/playButton";
 import { suppressButton } from "./element/suppressButton";
 import { toggleSpeakButton } from "./element/toggleSpeakButton";
 import { speak } from "./speak";
-import { Tweet } from "./tweet";
-import { Timeline } from "./tweet/Timeline";
+import { Tweet } from "./type/Tweet";
+import { Timeline } from "./type/tweet/Timeline";
 import { WhiteList } from "./WhiteList";
 
 export const inject = (): void => {

@@ -1,5 +1,5 @@
 import { speak } from "../speak";
-import { Tweet } from "../Tweet";
+import { Tweet } from "../type/Tweet";
 import { buttonBase } from "./base/buttonBase";
 import { Button } from "./type/Button";
 

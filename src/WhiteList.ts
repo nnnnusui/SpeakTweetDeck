@@ -1,5 +1,5 @@
 import { FilteringCondition } from "./FilteringCondition";
-import { Tweet } from "./Tweet";
+import { Tweet } from "./type/Tweet";
 
 type Condition = FilteringCondition;
 export type WhiteList = Condition[];
