@@ -1,3 +1,4 @@
+import { globalMuteButton } from "./element/globalMuteButton";
 import { playButton } from "./element/playButton";
 import { suppressButton } from "./element/suppressButton";
 import { toggleSpeakButton } from "./element/toggleSpeakButton";
@@ -28,37 +29,13 @@ export const inject = (): void => {
   tweetContainers.forEach(setOnDetectTweet);
 };
 
-const buttonBase = () => {
-  const base = document.createElement("a");
-  base.href = "#";
-  base.classList.add("link-clean");
-  return base;
-};
-const buttonInNavigatorBase = () => {
-  const base = buttonBase();
-  base.style.display = "flex";
-  base.style.justifyContent = "center";
-  base.style.fontSize = "2em";
-  base.style.marginBottom = ".2em";
-  return base;
-};
-
 const addSuppressButtonToNavigator = (navigator: Element) => {
   const button = suppressButton();
   navigator.prepend(button);
 };
 
 const addGlobalMuteButtonToNavigator = (navigator: Element): void => {
-  const button = buttonInNavigatorBase();
-  button.title = "speak: global mute";
-  button.textContent = "🔇";
-  button.style.opacity = ".5";
-  button.addEventListener("click", () => {
-    const mute = localStorage.getItem("mute") === true.toString();
-    const after = !mute;
-    button.style.opacity = after ? "1" : ".5";
-    localStorage.setItem("mute", after.toString());
-  });
+  const button = globalMuteButton();
   navigator.prepend(button);
 };
 
