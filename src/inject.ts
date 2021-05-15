@@ -1,6 +1,6 @@
 import { globalMuteButton } from "./element/globalMuteButton";
-import { playButton } from "./element/playButton";
 import { suppressButton } from "./element/suppressButton";
+import { addPlayButtonToTweet } from "./injector/addPlayButtonToTweet";
 import { addToggleSpeakButtonToTimeline } from "./injector/addToggleSpeakButtonToTimeline";
 import { speak } from "./speak";
 import { Tweet } from "./type/Tweet";
@@ -24,15 +24,6 @@ export const inject = (): void => {
   setOnAddTimeline(timelinesContainer);
   timelines.forEach(setOnUpdateTimeline);
   tweetContainers.forEach(setOnDetectTweet);
-};
-
-const addPlayButtonToTweet = (tweet: Element) => {
-  const actionList = tweet.getElementsByClassName("tweet-actions")[0];
-  if (!actionList) return;
-  const button = playButton(Tweet.fromElement(tweet));
-  const container = document.createElement("li");
-  container.appendChild(button);
-  actionList.appendChild(container);
 };
 
 // observers
