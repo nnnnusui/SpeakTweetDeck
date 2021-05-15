@@ -35,12 +35,10 @@ export const WhiteList = {
   get,
   add: (it: Condition): void => {
     const whitelist = [...get(), it];
-    console.log(it);
     localStorage.setItem(key, JSON.stringify(whitelist));
   },
   remove: (that: Condition): void => {
     const whitelist = get().filter((it) => !equals(it, that));
-    console.log(that);
     localStorage.setItem(key, JSON.stringify(whitelist));
   },
   exists: (that: Condition): boolean => !!get().find((it) => equals(it, that)),
