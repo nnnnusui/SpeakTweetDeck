@@ -3,10 +3,8 @@ import { suppressButton } from "./element/suppressButton";
 import { addPlayButtonToTweet } from "./injector/addPlayButtonToTweet";
 import { addToggleSpeakButtonToTimeline } from "./injector/addToggleSpeakButtonToTimeline";
 import { onAddTimeline } from "./observer/onAddTimeline";
+import { onDetectTweet } from "./observer/onDetectTweet";
 import { onUpdateTimeline } from "./observer/onUpdateTimeline";
-import { speak } from "./speak";
-import { Tweet } from "./type/Tweet";
-import { WhiteList } from "./WhiteList";
 
 export const inject = (): void => {
   const navigator = document.getElementsByClassName("app-navigator")[0];
@@ -25,27 +23,5 @@ export const inject = (): void => {
   );
   onAddTimeline.set(timelinesContainer);
   timelines.forEach(onUpdateTimeline.set);
-  tweetContainers.forEach(setOnDetectTweet);
-};
-
-// observers
-const isSpeakTarget = (tweet: Tweet) => WhiteList.check(tweet);
-const onDetectTweet = (tweetNode: Node) => {
-  const tweetElement = tweetNode as Element;
-  const tweet = Tweet.fromElement(tweetElement);
-  addPlayButtonToTweet(tweetElement);
-  if (!isSpeakTarget(tweet)) return;
-  const mute = localStorage.getItem("mute") === true.toString();
-  if (mute) return;
-  speak(tweet);
-};
-const onDetectTweetObserver = new MutationObserver((mutations) =>
-  mutations.forEach((mutation) =>
-    Array.from(mutation.addedNodes)
-      .reverse()
-      .forEach((it) => onDetectTweet(it as Element))
-  )
-);
-const setOnDetectTweet = (target: Node) => {
-  onDetectTweetObserver.observe(target, { childList: true });
+  tweetContainers.forEach(onDetectTweet.set);
 };
