@@ -1,4 +1,5 @@
 import { playButton } from "./element/playButton";
+import { suppressButton } from "./element/suppressButton";
 import { toggleSpeakButton } from "./element/toggleSpeakButton";
 import { speak } from "./speak";
 import { Tweet } from "./tweet";
@@ -43,10 +44,7 @@ const buttonInNavigatorBase = () => {
 };
 
 const addSuppressButtonToNavigator = (navigator: Element) => {
-  const button = buttonInNavigatorBase();
-  button.textContent = "🔈";
-  button.title = "speak: suppress";
-  button.addEventListener("click", () => window.speechSynthesis.cancel());
+  const button = suppressButton();
   navigator.prepend(button);
 };
 
