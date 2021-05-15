@@ -1,3 +1,4 @@
+import { toggleSpeakButton } from "./element/toggleSpeakButton";
 import { speak } from "./speak";
 import { Tweet } from "./tweet";
 import { Timeline } from "./tweet/Timeline";
@@ -11,6 +12,7 @@ export const inject = (): void => {
   const timelines = Array.from(timelinesContainer.children);
   const tweets = Array.from(document.getElementsByClassName("tweet"));
 
+  navigator.prepend();
   addSuppressButtonToNavigator(navigator);
   addGlobalMuteButtonToNavigator(navigator);
   timelines.forEach(addToggleSpeakButtonToTimeline);
@@ -69,19 +71,7 @@ const addToggleSpeakButtonToTimeline = (element: Element) => {
     return;
 
   const timeline = Timeline.fromElement(element);
-  const button = buttonBase();
-  button.title = "speak: toggle";
-  button.textContent = WhiteList.exists({ timeline }) ? "🔊" : "🔇";
-  button.onclick = () => {
-    if (WhiteList.exists({ timeline })) {
-      button.textContent = "🔇";
-      WhiteList.remove({ timeline });
-    } else {
-      button.textContent = "🔊";
-      WhiteList.add({ timeline });
-    }
-  };
-  button.classList.add(className);
+  const button = toggleSpeakButton({ timeline });
   title.insertBefore(
     button,
     title.getElementsByClassName("column-header-links")[0]

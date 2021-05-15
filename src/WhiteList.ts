@@ -1,6 +1,7 @@
+import { FilteringCondition } from "./FilteringCondition";
 import { Tweet } from "./Tweet";
 
-type Condition = Partial<Tweet>;
+type Condition = FilteringCondition;
 export type WhiteList = Condition[];
 
 const equals = (it: Condition, that: Condition) =>
