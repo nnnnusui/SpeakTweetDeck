@@ -1,12 +1,15 @@
 import { FilteringCondition } from "./FilteringCondition";
 import { Tweet } from "./Tweet";
+import { Timeline } from "./tweet/Timeline";
 
 type Condition = FilteringCondition;
 export type WhiteList = Condition[];
 
 const equals = (it: Condition, that: Condition) =>
-  it.timeline?.title === that.timeline?.title &&
-  it.timeline?.account === that.timeline?.account &&
+  (it.timeline === that.timeline ||
+    (it.timeline &&
+      that.timeline &&
+      Timeline.equals(it.timeline, that.timeline))) &&
   it.isRetweet === that.isRetweet &&
   it.isReply === that.isReply &&
   it.userId === that.userId &&
@@ -15,8 +18,7 @@ const equals = (it: Condition, that: Condition) =>
 // && it.media?.amount === that.media?.amount
 
 const check = (it: Condition, tweet: Tweet) =>
-  (!it.timeline?.title || it.timeline.title === tweet.timeline.title) &&
-  (!it.timeline?.account || it.timeline.account === tweet.timeline.account) &&
+  (!it.timeline || Timeline.equals(it.timeline, tweet.timeline)) &&
   (!it.isRetweet || it.isRetweet === tweet.isRetweet) &&
   (!it.isReply || it.isReply === tweet.isReply) &&
   (!it.userId || it.userId === tweet.userId) &&
@@ -33,10 +35,12 @@ export const WhiteList = {
   get,
   add: (it: Condition): void => {
     const whitelist = [...get(), it];
+    console.log(it);
     localStorage.setItem(key, JSON.stringify(whitelist));
   },
   remove: (that: Condition): void => {
     const whitelist = get().filter((it) => !equals(it, that));
+    console.log(that);
     localStorage.setItem(key, JSON.stringify(whitelist));
   },
   exists: (that: Condition): boolean => !!get().find((it) => equals(it, that)),
