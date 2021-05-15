@@ -15,9 +15,7 @@ export const inject = (): void => {
   const timelines = Array.from(timelinesContainer.children);
   const tweets = Array.from(document.getElementsByClassName("tweet"));
 
-  navigator.prepend();
-  addSuppressButtonToNavigator(navigator);
-  addGlobalMuteButtonToNavigator(navigator);
+  navigator.prepend(globalMuteButton(), suppressButton());
   timelines.forEach(addToggleSpeakButtonToTimeline);
   tweets.forEach(addPlayButtonToTweet);
 
@@ -27,16 +25,6 @@ export const inject = (): void => {
   setOnAddTimeline(timelinesContainer);
   timelines.forEach(setOnViewDetail);
   tweetContainers.forEach(setOnDetectTweet);
-};
-
-const addSuppressButtonToNavigator = (navigator: Element) => {
-  const button = suppressButton();
-  navigator.prepend(button);
-};
-
-const addGlobalMuteButtonToNavigator = (navigator: Element): void => {
-  const button = globalMuteButton();
-  navigator.prepend(button);
 };
 
 const addToggleSpeakButtonToTimeline = (element: Element) => {
