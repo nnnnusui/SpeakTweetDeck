@@ -1,8 +1,15 @@
+import { onDetectTweet } from "./onDetectTweet";
 import { onUpdateTimeline } from "./onUpdateTimeline";
 
 const observer = new MutationObserver((mutations) =>
   mutations.forEach((mutation) =>
-    mutation.addedNodes.forEach(onUpdateTimeline.set)
+    mutation.addedNodes.forEach((it) => {
+      onUpdateTimeline.set(it);
+      const tweetContainers = Array.from(
+        (it as Element).getElementsByClassName("chirp-container")
+      );
+      tweetContainers.forEach(onDetectTweet.set);
+    })
   )
 );
 
