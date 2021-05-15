@@ -7,7 +7,7 @@
     "fix:prettier": "npm run lint:prettier -- --write",
     "fix:eslint": "npm run lint:eslint -- --fix",
     "fix": "run-s fix:*",
-    "build:webpack": "webpack --mode=development",
+    "build:webpack": "webpack --mode=production",
     "build:copy": "node -e \"require('fs-extra').copySync('public', 'out')\"",
     "build": "run-p build:*",
     "routine": "run-s fix build",
