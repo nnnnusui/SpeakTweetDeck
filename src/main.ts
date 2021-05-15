@@ -2,10 +2,10 @@
 import { addSpeakButton } from "./addSpeakButton";
 import { addSuppressButton } from "./addSuppressButton";
 import { addToggleSpeakButtonToTimelines } from "./addToggleSpeakButtonToTimelines";
-import { Text } from "./tweet/Text";
 import { Tweet } from "./Tweet";
 import { WhiteList } from "./WhiteList";
 import { addGlobalMuteButton } from "./addGlobalMuteButton";
+import { speak } from "./speak";
 
 const secondsToWaitForLoad = 5;
 setTimeout(() => {
@@ -47,39 +47,3 @@ const onDetectTweet = (tweetNode: Node) => {
 };
 
 const isSpeakTarget = (tweet: Tweet) => WhiteList.check(tweet);
-const speak = (tweet: Tweet) => {
-  const utterance = utteranceFromTweet(tweet);
-  window.speechSynthesis.speak(utterance);
-};
-
-const utteranceFromTweet = (tweet: Tweet) => {
-  const convertText = (text: Text) => {
-    switch (text.kind) {
-      case "plain":
-        return text.value;
-      case "url":
-        return `url`;
-      default:
-        return `${text.kind} ${text.value}`;
-    }
-  };
-  const textContent = Array.from(tweet.text).map(convertText).join("\n");
-  const isRetweet = tweet.isRetweet ? "Retweet" : "";
-  const isReply = tweet.isReply ? "Reply" : "";
-  const mediaInfo =
-    tweet.media.type === "none"
-      ? ""
-      : `${tweet.media.type}${tweet.media.amount}`;
-  const utterance = new SpeechSynthesisUtterance(
-    [
-      tweet.timeline.title,
-      isRetweet,
-      isReply,
-      tweet.userName,
-      textContent,
-      mediaInfo,
-    ].join("\n")
-  );
-  utterance.rate = 1.6;
-  return utterance;
-};
