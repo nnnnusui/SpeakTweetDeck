@@ -2,6 +2,7 @@ import { globalMuteButton } from "./element/globalMuteButton";
 import { suppressButton } from "./element/suppressButton";
 import { addPlayButtonToTweet } from "./injector/addPlayButtonToTweet";
 import { addToggleSpeakButtonToTimeline } from "./injector/addToggleSpeakButtonToTimeline";
+import { onUpdateTimeline } from "./observer/onUpdateTimeline";
 import { speak } from "./speak";
 import { Tweet } from "./type/Tweet";
 import { WhiteList } from "./WhiteList";
@@ -22,28 +23,14 @@ export const inject = (): void => {
     document.getElementsByClassName("chirp-container")
   );
   setOnAddTimeline(timelinesContainer);
-  timelines.forEach(setOnUpdateTimeline);
+  timelines.forEach(onUpdateTimeline.set);
   tweetContainers.forEach(setOnDetectTweet);
 };
 
 // observers
-const onUpdateTimeline = new MutationObserver((mutations) =>
-  mutations.forEach((mutation) => {
-    const timeline = mutation.target as Element;
-    console.log("observe");
-    addToggleSpeakButtonToTimeline(timeline);
-  })
-);
-const setOnUpdateTimeline = (target: Node) => {
-  onUpdateTimeline.observe(target, {
-    attributes: true,
-    attributeFilter: ["class"],
-  });
-};
-
 const onAddTimeline = new MutationObserver((mutations) =>
   mutations.forEach((mutation) =>
-    mutation.addedNodes.forEach(setOnUpdateTimeline)
+    mutation.addedNodes.forEach(onUpdateTimeline.set)
   )
 );
 const setOnAddTimeline = (target: Node) => {
