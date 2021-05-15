@@ -1,11 +1,10 @@
 import { FilteringCondition } from "../FilteringCondition";
 import { WhiteList } from "../WhiteList";
 import { buttonBase } from "./base/buttonBase";
+import { Button } from "./type/Button";
 
 export const className = "toggle-speak-button";
-export const toggleSpeakButton = (
-  condition: FilteringCondition
-): HTMLAnchorElement => {
+export const toggleSpeakButton = (condition: FilteringCondition): Button => {
   const button = buttonBase();
   button.title = "speak: toggle";
   button.textContent = WhiteList.exists(condition) ? "🔊" : "🔇";

@@ -1,3 +1,4 @@
+import { playButton } from "./element/playButton";
 import { toggleSpeakButton } from "./element/toggleSpeakButton";
 import { speak } from "./speak";
 import { Tweet } from "./tweet";
@@ -81,11 +82,7 @@ const addToggleSpeakButtonToTimeline = (element: Element) => {
 const addPlayButtonToTweet = (tweet: Element) => {
   const actionList = tweet.getElementsByClassName("tweet-actions")[0];
   if (!actionList) return;
-  const button = buttonBase();
-  button.title = "speak: play";
-  button.textContent = "🔊";
-  button.addEventListener("click", () => speak(Tweet.fromElement(tweet)));
-  button.classList.add("tweet-action");
+  const button = playButton(Tweet.fromElement(tweet));
   const container = document.createElement("li");
   container.appendChild(button);
   actionList.appendChild(container);
