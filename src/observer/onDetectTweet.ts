@@ -1,9 +1,9 @@
 import { addPlayButtonToTweet } from "../injector/addPlayButtonToTweet";
 import { speak } from "../speak";
 import { Tweet } from "../type/Tweet";
-import { WhiteList } from "../type/WhiteList";
+import { AllowList } from "../type/AllowList";
 
-const isSpeakTarget = (tweet: Tweet) => WhiteList.check(tweet);
+const isSpeakTarget = (tweet: Tweet) => AllowList.check(tweet);
 const onDetect = (tweetNode: Node) => {
   const tweetElement = tweetNode as Element;
   const tweet = Tweet.fromElement(tweetElement);
