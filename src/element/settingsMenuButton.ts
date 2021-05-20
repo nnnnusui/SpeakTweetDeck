@@ -68,7 +68,7 @@ const form = () => {
   const form = document.createElement("form");
   form.style.background = "black";
 
-  form.append(rateSlider(), controller());
+  form.append(controller());
   return form;
 };
 
