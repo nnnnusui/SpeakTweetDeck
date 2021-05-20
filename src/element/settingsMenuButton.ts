@@ -1,21 +1,63 @@
+import { speaker } from "../speaker";
 import { buttonInNavigatorBase } from "./base/buttonInNavigatorBase";
-import { settingsMenu } from "./settingsMenu";
 
 export const settingsMenuButton = (): HTMLDivElement => {
   const container = document.createElement("div");
-  container.append(button(), settingsMenu);
+  const settingsMenu = menu();
+  container.append(button(settingsMenu), settingsMenu);
   return container;
 };
 
-const button = () => {
+const button = (menu: HTMLElement) => {
   let inMenu = false;
   const button = buttonInNavigatorBase();
   button.title = "speak: settings";
   button.textContent = "⚙️";
   button.addEventListener("click", () => {
-    settingsMenu.style.left = `${button.clientWidth}px`;
-    settingsMenu.style.visibility = inMenu ? "hidden" : "visible";
+    menu.style.left = `${button.clientWidth}px`;
+    menu.style.visibility = inMenu ? "hidden" : "visible";
     inMenu = !inMenu;
   });
   return button;
+};
+
+const menu = () => {
+  const container = document.createElement("div");
+  container.style.visibility = "hidden";
+  container.style.position = "fixed";
+  container.style.bottom = "0";
+
+  const modal = document.createElement("div");
+  modal.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
+  modal.style.borderStyle = "double";
+  modal.style.borderWidth = ".2em";
+
+  modal.append(speaker.previewer, form());
+  container.append(modal);
+  return container;
+};
+
+const form = () => {
+  const form = document.createElement("form");
+  form.style.background = "black";
+
+  form.append(rateSlider());
+  return form;
+};
+
+const rateSlider = () => {
+  const label = document.createElement("label");
+  label.textContent = "rate";
+  const input = document.createElement("input");
+  input.type = "range";
+  input.name = "rate";
+  input.min = "0";
+  input.max = "10";
+  input.step = "0.1";
+  input.value = "1";
+
+  label.append(input);
+  return label;
 };
