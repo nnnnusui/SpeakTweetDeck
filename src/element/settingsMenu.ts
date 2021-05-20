@@ -22,7 +22,6 @@ export const settingsMenu = (() => {
   container.style.left = "60px";
   container.style.bottom = "0";
   container.style.display = "flex";
-  container.style.width = "310px";
 
   const modal = document.createElement("div");
   modal.addEventListener("click", (event) => {

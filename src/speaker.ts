@@ -8,11 +8,13 @@ const previewer = (() => {
 })();
 export const speaker = {
   speak: (node: Node): void => {
-    const tweet = Tweet.fromElement(node as Element);
+    const element = node as Element;
+    const tweet = Tweet.fromElement(element);
     const utterance = utteranceFromTweet(tweet);
     utterance.addEventListener("start", () => {
       previewer.childNodes.forEach((it) => it.remove());
       previewer.append(node.cloneNode(true));
+      previewer.style.width = `${element.clientWidth}px`;
     });
     window.speechSynthesis.speak(utterance);
   },
