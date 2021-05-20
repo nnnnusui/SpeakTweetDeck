@@ -15,21 +15,29 @@ const rateSlider = () => {
   return label;
 };
 
+const form = () => {
+  const form = document.createElement("form");
+  form.style.background = "black";
+
+  form.append(rateSlider());
+  return form;
+};
+
 export const settingsMenu = (() => {
   const container = document.createElement("div");
   container.style.visibility = "hidden";
   container.style.position = "fixed";
   container.style.left = "60px";
   container.style.bottom = "0";
-  container.style.display = "flex";
 
   const modal = document.createElement("div");
   modal.addEventListener("click", (event) => {
     event.stopPropagation();
   });
-  modal.style.background = "black";
+  modal.style.borderStyle = "double";
+  modal.style.borderWidth = ".2em";
 
-  modal.append(speaker.previewer, rateSlider());
+  modal.append(speaker.previewer, form());
   container.append(modal);
   return container;
 })();
