@@ -1,3 +1,4 @@
+import { GlobalMute } from "../type/GlobalMute";
 import { buttonInNavigatorBase } from "./base/buttonInNavigatorBase";
 import { Button } from "./type/Button";
 
@@ -7,10 +8,8 @@ export const globalMuteButton = (): Button => {
   button.textContent = "🔇";
   button.style.opacity = ".5";
   button.addEventListener("click", () => {
-    const mute = localStorage.getItem("mute") === true.toString();
-    const after = !mute;
+    const after = GlobalMute.toggle();
     button.style.opacity = after ? "1" : ".5";
-    localStorage.setItem("mute", after.toString());
   });
   return button;
 };
