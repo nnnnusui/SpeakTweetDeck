@@ -1,6 +1,8 @@
 import { speaker } from "../speaker";
 import { GlobalMute } from "../type/GlobalMute";
 import { buttonInNavigatorBase } from "./base/buttonInNavigatorBase";
+import { globalMuteButton } from "./globalMuteButton";
+import { suppressButton } from "./suppressButton";
 
 export const settingsMenuButton = (): HTMLDivElement => {
   const container = document.createElement("div");
@@ -66,8 +68,17 @@ const form = () => {
   const form = document.createElement("form");
   form.style.background = "black";
 
-  form.append(rateSlider());
+  form.append(rateSlider(), controller());
   return form;
+};
+
+const controller = () => {
+  const container = document.createElement("div");
+  container.style.display = "flex";
+  container.style.flexDirection = "row";
+  container.style.justifyContent = "space-around";
+  container.append(globalMuteButton(), suppressButton());
+  return container;
 };
 
 const rateSlider = () => {

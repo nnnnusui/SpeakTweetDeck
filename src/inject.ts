@@ -1,6 +1,4 @@
-import { globalMuteButton } from "./element/globalMuteButton";
 import { settingsMenuButton } from "./element/settingsMenuButton";
-import { suppressButton } from "./element/suppressButton";
 import { addPlayButtonToTweet } from "./injector/addPlayButtonToTweet";
 import { addToggleSpeakButtonToTimeline } from "./injector/addToggleSpeakButtonToTimeline";
 import { onAddTimeline } from "./observer/onAddTimeline";
@@ -18,7 +16,7 @@ export const inject = (): void => {
   );
   const tweets = tweetContainers.flatMap((it) => Array.from(it.children));
 
-  navigator.prepend(settingsMenuButton(), globalMuteButton(), suppressButton());
+  navigator.prepend(settingsMenuButton());
   timelines.forEach(addToggleSpeakButtonToTimeline);
   tweets.forEach(addPlayButtonToTweet);
 
