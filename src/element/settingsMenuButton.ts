@@ -1,4 +1,5 @@
 import { speaker } from "../speaker";
+import { GlobalMute } from "../type/GlobalMute";
 import { buttonInNavigatorBase } from "./base/buttonInNavigatorBase";
 
 export const settingsMenuButton = (): HTMLDivElement => {
@@ -12,13 +13,35 @@ const button = (menu: HTMLElement) => {
   let inMenu = false;
   const button = buttonInNavigatorBase();
   button.title = "speak: settings";
-  button.textContent = "⚙️";
+
+  const centering = document.createElement("div");
+  centering.style.position = "relative";
+
   button.addEventListener("click", () => {
     menu.style.left = `${button.clientWidth}px`;
     menu.style.visibility = inMenu ? "hidden" : "visible";
     inMenu = !inMenu;
   });
+
+  centering.append(buttonIcon(), statusIcon());
+  button.append(centering);
   return button;
+};
+
+const buttonIcon = () => {
+  const icon = document.createElement("span");
+  icon.textContent = "⚙️";
+  return icon;
+};
+const statusIcon = () => {
+  const icon = document.createElement("span");
+  icon.textContent = GlobalMute.get() ? "🔇" : "🔊";
+  GlobalMute.addListener((mute) => (icon.textContent = mute ? "🔇" : "🔊"));
+  icon.style.fontSize = ".5em";
+  icon.style.position = "absolute";
+  icon.style.bottom = "0";
+  icon.style.right = "0";
+  return icon;
 };
 
 const menu = () => {
