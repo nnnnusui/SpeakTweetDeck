@@ -14,7 +14,10 @@ export const inject = (): void => {
   const timelinesContainer = document.getElementsByClassName("app-columns")[0];
   if (!timelinesContainer) throw Error("html class: 'app-columns' not found.");
   const timelines = Array.from(timelinesContainer.children);
-  const tweets = Array.from(document.getElementsByClassName("tweet"));
+  const tweetContainers = Array.from(
+    document.getElementsByClassName("chirp-container")
+  );
+  const tweets = tweetContainers.flatMap((it) => Array.from(it.children));
 
   navigator.prepend(
     settingsMenu,
@@ -25,9 +28,6 @@ export const inject = (): void => {
   timelines.forEach(addToggleSpeakButtonToTimeline);
   tweets.forEach(addPlayButtonToTweet);
 
-  const tweetContainers = Array.from(
-    document.getElementsByClassName("chirp-container")
-  );
   onAddTimeline.set(timelinesContainer);
   timelines.forEach(onUpdateTimeline.set);
   tweetContainers.forEach(onDetectTweet.set);
