@@ -23,7 +23,7 @@ const button = (menu: HTMLElement) => {
     inMenu = !inMenu;
   });
 
-  centering.append(buttonIcon(), statusIcon());
+  centering.append(buttonIcon(), statusBadge());
   button.append(centering);
   return button;
 };
@@ -33,15 +33,15 @@ const buttonIcon = () => {
   icon.textContent = "⚙️";
   return icon;
 };
-const statusIcon = () => {
-  const icon = document.createElement("span");
-  icon.textContent = GlobalMute.get() ? "🔇" : "🔊";
-  GlobalMute.addListener((mute) => (icon.textContent = mute ? "🔇" : "🔊"));
-  icon.style.fontSize = ".5em";
-  icon.style.position = "absolute";
-  icon.style.bottom = "0";
-  icon.style.right = "0";
-  return icon;
+const statusBadge = () => {
+  const element = document.createElement("span");
+  element.textContent = GlobalMute.get() ? "🔇" : "🔊";
+  GlobalMute.addListener((mute) => (element.textContent = mute ? "🔇" : "🔊"));
+  element.style.fontSize = ".5em";
+  element.style.position = "absolute";
+  element.style.bottom = "0";
+  element.style.right = "0";
+  return element;
 };
 
 const menu = () => {
