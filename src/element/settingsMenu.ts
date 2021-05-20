@@ -27,7 +27,6 @@ export const settingsMenu = (() => {
   const container = document.createElement("div");
   container.style.visibility = "hidden";
   container.style.position = "fixed";
-  container.style.left = "60px";
   container.style.bottom = "0";
 
   const modal = document.createElement("div");

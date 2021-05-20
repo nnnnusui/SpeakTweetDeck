@@ -11,6 +11,7 @@ const button = () => {
   button.title = "speak: settings";
   button.textContent = "⚙️";
   button.addEventListener("click", () => {
+    settingsMenu.style.left = `${button.clientWidth}px`;
     settingsMenu.style.visibility = inMenu ? "hidden" : "visible";
     inMenu = !inMenu;
   });
