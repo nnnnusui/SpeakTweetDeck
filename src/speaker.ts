@@ -1,12 +1,25 @@
 import { Tweet } from "./type/Tweet";
 import { Text } from "./type/tweet/Text";
 
-export const speak = (tweet: Tweet): void => {
-  const utterance = utteranceFromTweet(tweet);
-  window.speechSynthesis.speak(utterance);
+const previewer = (() => {
+  const container = document.createElement("div");
+  container.classList.add("previewer");
+  return container;
+})();
+export const speaker = {
+  speak: (node: Node): void => {
+    const tweet = Tweet.fromElement(node as Element);
+    const utterance = utteranceFromTweet(tweet);
+    utterance.addEventListener("start", () => {
+      previewer.childNodes.forEach((it) => it.remove());
+      previewer.append(node.cloneNode(true));
+    });
+    window.speechSynthesis.speak(utterance);
+  },
+  previewer,
 };
 
-const utteranceFromTweet = (tweet: Tweet) => {
+const utteranceFromTweet = (tweet: Tweet): SpeechSynthesisUtterance => {
   const convertText = (text: Text) => {
     switch (text.kind) {
       case "plain":
