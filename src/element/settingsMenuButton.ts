@@ -1,8 +1,10 @@
 import { buttonInNavigatorBase } from "./base/buttonInNavigatorBase";
 import { settingsMenu } from "./settingsMenu";
 
-export const settingsMenuButton = (): HTMLAnchorElement => {
-  return button();
+export const settingsMenuButton = (): HTMLDivElement => {
+  const container = document.createElement("div");
+  container.append(button(), settingsMenu);
+  return container;
 };
 
 const button = () => {
