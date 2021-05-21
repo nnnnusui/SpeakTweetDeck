@@ -69,7 +69,9 @@ const form = () => {
   const form = document.createElement("form");
   form.style.background = "black";
 
-  form.append(rateSlider(), controller());
+  const rate = inputter("rate", (it) => ({ rate: Number(it) }));
+  const pitch = inputter("pitch", (it) => ({ pitch: Number(it) }));
+  form.append(rate, pitch, controller());
   return form;
 };
 
@@ -82,19 +84,22 @@ const controller = () => {
   return container;
 };
 
-const rateSlider = () => {
+const inputter = <Key extends keyof UtteranceParameter>(
+  name: Key,
+  convert: (value: string) => Record<Key, UtteranceParameter[Key]>
+) => {
   const label = document.createElement("label");
-  label.textContent = "rate";
+  label.textContent = name;
 
   const onChange = (event: HTMLElementEventMap["input"]) => {
     const target = event.target as HTMLInputElement;
-    UtteranceParameter.update({ rate: Number(target.value) });
+    UtteranceParameter.update({ ...convert(target.value) });
     speaker.reSpeakCurrent();
   };
   const direct = document.createElement("input");
   direct.type = "number";
   direct.step = "0.01";
-  direct.value = `${UtteranceParameter.get().rate}`;
+  direct.value = `${UtteranceParameter.get()[name]}`;
   direct.addEventListener("change", onChange);
 
   const slider = document.createElement("input");
@@ -106,8 +111,8 @@ const rateSlider = () => {
   slider.addEventListener("input", (event) => {
     const target = event.target as HTMLInputElement;
     direct.value = target.value;
-    onChange(event);
   });
+  slider.addEventListener("change", onChange);
 
   label.append(direct, slider);
   return label;
