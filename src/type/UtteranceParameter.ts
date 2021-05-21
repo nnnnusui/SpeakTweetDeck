@@ -1,10 +1,11 @@
 const key = "utteranceParameter";
 export type UtteranceParameter = {
   rate: SpeechSynthesisUtterance["rate"];
+  pitch: SpeechSynthesisUtterance["pitch"];
 };
 const get = (): UtteranceParameter => {
   const value = localStorage.getItem(key);
-  if (!value) return { rate: 1 };
+  if (!value) return { rate: 1, pitch: 1 };
   return JSON.parse(value);
 };
 const set = (state: UtteranceParameter): void => {
