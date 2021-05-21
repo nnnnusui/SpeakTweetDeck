@@ -85,20 +85,30 @@ const controller = () => {
 const rateSlider = () => {
   const label = document.createElement("label");
   label.textContent = "rate";
-  const slider = document.createElement("input");
-  slider.type = "range";
-  slider.name = "rate";
-  slider.min = "0";
-  slider.max = "10";
-  slider.step = "0.1";
-  slider.value = `${UtteranceParameter.get().rate}`;
 
-  slider.addEventListener("change", (event) => {
+  const onChange = (event: HTMLElementEventMap["input"]) => {
     const target = event.target as HTMLInputElement;
     UtteranceParameter.update({ rate: Number(target.value) });
     speaker.reSpeakCurrent();
+  };
+  const direct = document.createElement("input");
+  direct.type = "number";
+  direct.step = "0.01";
+  direct.value = `${UtteranceParameter.get().rate}`;
+  direct.addEventListener("change", onChange);
+
+  const slider = document.createElement("input");
+  slider.type = "range";
+  slider.min = "0";
+  slider.max = "10";
+  slider.step = "0.1";
+  slider.value = direct.value;
+  slider.addEventListener("input", (event) => {
+    const target = event.target as HTMLInputElement;
+    direct.value = target.value;
+    onChange(event);
   });
 
-  label.append(slider);
+  label.append(direct, slider);
   return label;
 };
