@@ -70,6 +70,5 @@ const utteranceFromTweet = (tweet: Tweet): SpeechSynthesisUtterance => {
       mediaInfo,
     ].join("\n")
   );
-  utterance.rate = 1.6;
   return utterance;
 };
