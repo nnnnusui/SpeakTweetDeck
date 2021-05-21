@@ -69,9 +69,9 @@ const form = () => {
   const form = document.createElement("form");
   form.style.background = "black";
 
-  const rate = inputter("rate", (it) => ({ rate: Number(it) }));
-  const pitch = inputter("pitch", (it) => ({ pitch: Number(it) }));
-  const volume = inputter("volume", (it) => ({ volume: Number(it) }));
+  const rate = inputter("rate", (it) => ({ rate: Number(it) }), 10);
+  const pitch = inputter("pitch", (it) => ({ pitch: Number(it) }), 2);
+  const volume = inputter("volume", (it) => ({ volume: Number(it) }), 1);
   form.append(voicePicker(), rate, pitch, volume, controller());
   return form;
 };
@@ -114,7 +114,8 @@ const voicePicker = () => {
 
 const inputter = <Key extends keyof UtteranceParameter>(
   name: Key,
-  convert: (value: string) => Record<Key, UtteranceParameter[Key]>
+  convert: (value: string) => Record<Key, UtteranceParameter[Key]>,
+  max?: number
 ) => {
   const label = document.createElement("label");
   label.textContent = name;
@@ -132,9 +133,9 @@ const inputter = <Key extends keyof UtteranceParameter>(
 
   const slider = document.createElement("input");
   slider.type = "range";
+  slider.step = "0.01";
   slider.min = "0";
-  slider.max = `10`;
-  slider.step = "0.1";
+  if (max) slider.max = `${max}`;
   slider.value = direct.value;
   slider.addEventListener("input", (event) => {
     const target = event.target as HTMLInputElement;
