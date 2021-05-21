@@ -6,18 +6,37 @@ const previewer = (() => {
   container.classList.add("previewer");
   return container;
 })();
+
+let latest = new SpeechSynthesisUtterance("");
+let current = new SpeechSynthesisUtterance("");
+const play = (utterance: SpeechSynthesisUtterance) => {
+  window.speechSynthesis.speak(utterance);
+};
+const cancel = (): void => window.speechSynthesis.cancel();
+const reSpeakCurrent = (): void => {
+  cancel();
+  play(current);
+};
 export const speaker = {
   speak: (node: Node): void => {
     const element = node as Element;
     const tweet = Tweet.fromElement(element);
     const utterance = utteranceFromTweet(tweet);
     utterance.addEventListener("start", () => {
+      current = utterance;
       previewer.childNodes.forEach((it) => it.remove());
       previewer.append(node.cloneNode(true));
       previewer.style.width = `${element.clientWidth}px`;
     });
-    window.speechSynthesis.speak(utterance);
+    if (window.speechSynthesis.speaking) {
+      latest.addEventListener("end", () => play(utterance));
+    } else {
+      play(utterance);
+    }
+    latest = utterance;
   },
+  reSpeakCurrent,
+  cancel,
   previewer,
 };
 
