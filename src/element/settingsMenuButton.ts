@@ -59,6 +59,10 @@ const menu = () => {
   });
   modal.style.borderStyle = "double";
   modal.style.borderWidth = ".2em";
+  modal.style.display = "flex";
+  modal.style.flexDirection = "column";
+  modal.style.alignItems = "center";
+  modal.style.background = "black";
 
   modal.append(speaker.previewer, form());
   container.append(modal);
@@ -67,7 +71,6 @@ const menu = () => {
 
 const form = () => {
   const form = document.createElement("form");
-  form.style.background = "black";
 
   const rate = inputter("rate", (it) => ({ rate: Number(it) }), 10);
   const pitch = inputter("pitch", (it) => ({ pitch: Number(it) }), 2);
@@ -119,6 +122,7 @@ const inputter = <Key extends keyof UtteranceParameter>(
 ) => {
   const label = document.createElement("label");
   label.textContent = name;
+  label.style.position = "relative";
 
   const onChange = (event: HTMLElementEventMap["input"]) => {
     const target = event.target as HTMLInputElement;
@@ -142,6 +146,15 @@ const inputter = <Key extends keyof UtteranceParameter>(
     direct.value = target.value;
   });
   slider.addEventListener("change", onChange);
+  slider.style.cssText = `
+    appearance: none;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  `;
 
   label.append(direct, slider);
   return label;
