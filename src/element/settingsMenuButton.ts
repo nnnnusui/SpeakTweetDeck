@@ -1,5 +1,6 @@
 import { speaker } from "../speaker";
 import { GlobalMute } from "../type/GlobalMute";
+import { UtteranceParameter } from "../type/UtteranceParameter";
 import { buttonInNavigatorBase } from "./base/buttonInNavigatorBase";
 import { globalMuteButton } from "./globalMuteButton";
 import { suppressButton } from "./suppressButton";
@@ -68,7 +69,7 @@ const form = () => {
   const form = document.createElement("form");
   form.style.background = "black";
 
-  form.append(controller());
+  form.append(rateSlider(), controller());
   return form;
 };
 
@@ -84,14 +85,20 @@ const controller = () => {
 const rateSlider = () => {
   const label = document.createElement("label");
   label.textContent = "rate";
-  const input = document.createElement("input");
-  input.type = "range";
-  input.name = "rate";
-  input.min = "0";
-  input.max = "10";
-  input.step = "0.1";
-  input.value = "1";
+  const slider = document.createElement("input");
+  slider.type = "range";
+  slider.name = "rate";
+  slider.min = "0";
+  slider.max = "10";
+  slider.step = "0.1";
+  slider.value = "1";
 
-  label.append(input);
+  slider.addEventListener("change", (event) => {
+    const target = event.target as HTMLInputElement;
+    UtteranceParameter.update({ rate: Number(target.value) });
+    speaker.reSpeakCurrent();
+  });
+
+  label.append(slider);
   return label;
 };
