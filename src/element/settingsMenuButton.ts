@@ -91,7 +91,7 @@ const rateSlider = () => {
   slider.min = "0";
   slider.max = "10";
   slider.step = "0.1";
-  slider.value = "1";
+  slider.value = `${UtteranceParameter.get().rate}`;
 
   slider.addEventListener("change", (event) => {
     const target = event.target as HTMLInputElement;
