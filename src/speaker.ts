@@ -1,5 +1,6 @@
 import { Tweet } from "./type/Tweet";
 import { Text } from "./type/tweet/Text";
+import { UtteranceParameter } from "./type/UtteranceParameter";
 
 const previewer = (() => {
   const container = document.createElement("div");
@@ -10,6 +11,7 @@ const previewer = (() => {
 let latest = new SpeechSynthesisUtterance("");
 let current = new SpeechSynthesisUtterance("");
 const play = (utterance: SpeechSynthesisUtterance) => {
+  UtteranceParameter.applyTo(utterance);
   window.speechSynthesis.speak(utterance);
 };
 const cancel = (): void => window.speechSynthesis.cancel();
