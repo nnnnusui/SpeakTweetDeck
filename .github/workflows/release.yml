@@ -24,7 +24,10 @@ jobs:
       run: |
         npm ci
         npm run build
-        cd out
+
+    - name: Zip
+      working-directory: ./out
+      run: |
         zip -r ../SpeakTweetDeck_${{ steps.names.outputs.TAG }} *
 
     - name: Create Release
