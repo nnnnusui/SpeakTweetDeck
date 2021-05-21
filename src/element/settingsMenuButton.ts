@@ -71,7 +71,7 @@ const form = () => {
 
   const rate = inputter("rate", (it) => ({ rate: Number(it) }));
   const pitch = inputter("pitch", (it) => ({ pitch: Number(it) }));
-  form.append(rate, pitch, controller());
+  form.append(voicePicker(), rate, pitch, controller());
   return form;
 };
 
@@ -82,6 +82,33 @@ const controller = () => {
   container.style.justifyContent = "space-around";
   container.append(globalMuteButton(), suppressButton());
   return container;
+};
+
+const voicePicker = () => {
+  const label = document.createElement("label");
+  label.textContent = "voice";
+  const select = document.createElement("select");
+  select.addEventListener("change", () => {
+    UtteranceParameter.update({ voice: select.value });
+    speaker.reSpeakCurrent();
+  });
+
+  const populateVoiceList = () => {
+    select.childNodes.forEach((it) => it.remove());
+    window.speechSynthesis.getVoices().forEach((voice) => {
+      const option = document.createElement("option");
+      option.textContent = voice.name + (voice.default ? " -- DEFAULT" : "");
+      option.value = voice.voiceURI;
+      option.setAttribute("data-lang", voice.lang);
+      option.setAttribute("data-name", voice.name);
+      select.appendChild(option);
+    });
+  };
+  populateVoiceList();
+  window.speechSynthesis.addEventListener("voiceschanged", populateVoiceList);
+
+  label.append(select);
+  return label;
 };
 
 const inputter = <Key extends keyof UtteranceParameter>(
