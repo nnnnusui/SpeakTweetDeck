@@ -1,5 +1,5 @@
 const key = "utteranceParameter";
-type UtteranceParameter = {
+export type UtteranceParameter = {
   rate: SpeechSynthesisUtterance["rate"];
 };
 const get = (): UtteranceParameter => {
