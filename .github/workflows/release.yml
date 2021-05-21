@@ -25,7 +25,7 @@ jobs:
         npm ci
         npm run build
         cd out
-        zip -r ../SpeakTweetDeck_${{ steps.names.outputs.TAG }} out/*
+        zip -r ../SpeakTweetDeck_${{ steps.names.outputs.TAG }} *
 
     - name: Create Release
       id: create_release
