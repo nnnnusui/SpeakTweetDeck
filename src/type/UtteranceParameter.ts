@@ -3,10 +3,11 @@ export type UtteranceParameter = {
   voice: string | null;
   rate: SpeechSynthesisUtterance["rate"];
   pitch: SpeechSynthesisUtterance["pitch"];
+  volume: SpeechSynthesisUtterance["volume"];
 };
 const get = (): UtteranceParameter => {
   const value = localStorage.getItem(key);
-  if (!value) return { voice: null, rate: 1, pitch: 1 };
+  if (!value) return { voice: null, rate: 1, pitch: 1, volume: 0.5 };
   return JSON.parse(value);
 };
 const set = (state: UtteranceParameter): void => {
@@ -25,6 +26,7 @@ const applyTo = (
   utterance.voice = voice ? voice : null;
   utterance.rate = current.rate;
   utterance.pitch = current.pitch;
+  utterance.volume = current.volume;
   return utterance;
 };
 

@@ -71,7 +71,8 @@ const form = () => {
 
   const rate = inputter("rate", (it) => ({ rate: Number(it) }));
   const pitch = inputter("pitch", (it) => ({ pitch: Number(it) }));
-  form.append(voicePicker(), rate, pitch, controller());
+  const volume = inputter("volume", (it) => ({ volume: Number(it) }));
+  form.append(voicePicker(), rate, pitch, volume, controller());
   return form;
 };
 
@@ -132,7 +133,7 @@ const inputter = <Key extends keyof UtteranceParameter>(
   const slider = document.createElement("input");
   slider.type = "range";
   slider.min = "0";
-  slider.max = "10";
+  slider.max = `10`;
   slider.step = "0.1";
   slider.value = direct.value;
   slider.addEventListener("input", (event) => {
