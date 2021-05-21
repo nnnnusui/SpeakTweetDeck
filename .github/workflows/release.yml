@@ -28,7 +28,7 @@ jobs:
     - name: Zip
       working-directory: ./out
       run: |
-        zip -r ../SpeakTweetDeck_${{ steps.names.outputs.TAG }} *
+        zip -r ../SpeakTweetDeck_${{ steps.names.outputs.TAG }}.zip *
 
     - name: Create Release
       id: create_release
