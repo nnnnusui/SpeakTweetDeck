@@ -1,8 +1,8 @@
 {
   "name": "SpeakTweetDeck",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "manifest_version": 3,
-  "description": "",
+  "description": "Adds read-aloud functionality to TweetDeck.",
   "content_scripts": [{
     "matches": [ "https://tweetdeck.twitter.com/*" ],
     "css": ["style.css"], "js": ["main.js"]
