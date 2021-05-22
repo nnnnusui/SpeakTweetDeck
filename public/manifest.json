@@ -5,7 +5,7 @@
   "description": "",
   "content_scripts": [{
     "matches": [ "https://tweetdeck.twitter.com/*" ],
-    "js": ["main.js"]
+    "css": ["style.css"], "js": ["main.js"]
   }],
   "icons": {
       "16": "16.png",

@@ -1,12 +1,12 @@
 import { speaker } from "../speaker";
 import { GlobalMute } from "../type/GlobalMute";
 import { UtteranceParameter } from "../type/UtteranceParameter";
-import { buttonInNavigatorBase } from "./base/buttonInNavigatorBase";
 import { globalMuteButton } from "./globalMuteButton";
 import { suppressButton } from "./suppressButton";
 
 export const settingsMenuButton = (): HTMLDivElement => {
   const container = document.createElement("div");
+  container.classList.add("speak-tweet-deck", "settings");
   const settingsMenu = menu();
   container.append(button(settingsMenu), settingsMenu);
   return container;
@@ -14,7 +14,9 @@ export const settingsMenuButton = (): HTMLDivElement => {
 
 const button = (menu: HTMLElement) => {
   let inMenu = false;
-  const button = buttonInNavigatorBase();
+  const button = document.createElement("a");
+  button.classList.add("button", "link-clean");
+  button.href = "#";
   button.title = "speak: settings";
 
   const centering = document.createElement("div");
@@ -38,35 +40,21 @@ const buttonIcon = () => {
 };
 const statusBadge = () => {
   const element = document.createElement("span");
+  element.classList.add("status-badge");
   element.textContent = GlobalMute.get() ? "🔇" : "🔊";
   GlobalMute.addListener((mute) => (element.textContent = mute ? "🔇" : "🔊"));
-  element.style.fontSize = ".5em";
-  element.style.position = "absolute";
-  element.style.bottom = "0";
-  element.style.right = "0";
   return element;
 };
 
 const menu = () => {
-  const container = document.createElement("div");
-  container.style.visibility = "hidden";
-  container.style.position = "fixed";
-  container.style.bottom = "0";
-
-  const modal = document.createElement("div");
+  const modal = document.createElement("section");
+  modal.classList.add("menu");
   modal.addEventListener("click", (event) => {
     event.stopPropagation();
   });
-  modal.style.borderStyle = "double";
-  modal.style.borderWidth = ".2em";
-  modal.style.display = "flex";
-  modal.style.flexDirection = "column";
-  modal.style.alignItems = "center";
-  modal.style.background = "black";
 
   modal.append(speaker.previewer, form());
-  container.append(modal);
-  return container;
+  return modal;
 };
 
 const form = () => {
@@ -146,15 +134,6 @@ const inputter = <Key extends keyof UtteranceParameter>(
     direct.value = target.value;
   });
   slider.addEventListener("change", onChange);
-  slider.style.cssText = `
-    appearance: none;
-    height: 0;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-  `;
 
   label.append(direct, slider);
   return label;
